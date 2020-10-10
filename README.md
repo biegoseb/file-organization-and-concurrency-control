@@ -5,15 +5,18 @@
 <summary>"Clic para expandir"</summary>
 
 - [Introduccion](#Introduccion)
-- [Fundamente y describa las tecnicas](#Fundamente y describa las tecnicas)
-- [Resultados Experimentales](#Resultados Experimentales)
-- [Pruebas de uso y presentación](#Pruebas de uso y presentación)
+- [Fundamente y describa las tecnicas](#Fundamente-y-describa-las-tecnicas)
+- [Resultados Experimentales](#Resultados-Experimentales)
+- [Pruebas de uso y presentación](#Pruebas-de-uso-y-presentación)
 
 </details>
 
 ## Introduccion
 
-Objetivo del proyecto.
+El Objetivo de nuestro proyecto es entender y aplicar almacenamiento de archivos fisicos en Memoria Secundaria, y también tener un acceso a la concurrencia mediante la tecnica de :
+- Sequential File
+- ISAM
+
 Descripcion del dominio de datos a usar.
 Resultados que se esperan obtener
 
@@ -28,7 +31,7 @@ Explique procedimentalmente el proceso de inserción, eliminación y búsqueda.
 
  Describa como realizó la simulación de transacciones. Explique el uso de hilos para la ejecución en paralelo de transacciones.
 
-### Resultados Experimentales
+## Resultados Experimentales
 
 Cuadro y/o gráfico comparativo de desempeño
 de las técnicas de indexación de archivos sobre
