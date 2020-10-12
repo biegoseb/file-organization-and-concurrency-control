@@ -1,8 +1,8 @@
-# Organización de Archivos y Control de Concurrencia
+[#](#) Organización de Archivos y Control de Concurrencia
 
 ## Tabla de contenidos
 <details>
-<summary>"Clic para expandir"</summary>
+<summary>"Clic para navegar: "</summary>
 
 - [Introduccion](#Introduccion)
 - [Fundamente y describa las tecnicas](#Fundamente-y-describa-las-tecnicas)
@@ -13,39 +13,83 @@
 
 ## Introduccion
 
-El Objetivo de nuestro proyecto es entender y aplicar almacenamiento de archivos fisicos en Memoria Secundaria, y también tener un acceso a la concurrencia mediante la tecnica de :
-- Sequential File
-- ISAM
+El objetivo de nuestro proyecto es entender la organización de archivos físico y el manejo de acceso concurrente, y aplicar técnicas de almacenamiento de archivos en Memoria Secundaria.
 
-Descripcion del dominio de datos a usar.
-Resultados que se esperan obtener
+Los datos que se usaran en este Proyecto serán de Una Base de datos de transacciones de Materias primas. Y nuestro segundo archivo será Una Base de datos de usuarios de un programa de seguro medico social en Estados Unidos.
 
+Se esperará poder visualizar los tiempos de ejecucion de las funciones de Insertar, Buscar y Eliminar acceder a memoria secundaria de acuerdo a cada algoritmo de organizacion de archivos.
 ## Fundamente y describa las tecnicas
 
-Describa brevemente las técnicas de indexación de archivos que ha elegido.
-Explique procedimentalmente el proceso de inserción, eliminación y búsqueda.
 
- Detalle los aspectos importantes de la implementación de dichas técnicas.
+**Descripcion de las técnicas de indexación de archivos**
 
- Debe notarse con claridad el manejo de la memoria secundaria.
 
- Describa como realizó la simulación de transacciones. Explique el uso de hilos para la ejecución en paralelo de transacciones.
+El metodo de organizacion de archivos en Isam consiste en inserción, eliminación y búsqueda
+El metodo de insercion es
+El metodo de eliminacion es
+El metodo de busqueda es
+
+El metodo de organizacion de archivos en Extendible hashing consiste en inserción, eliminación y búsqueda
+El metodo de insercion es
+El metodo de eliminacion es
+El metodo de busqueda es
+
+**Descripcion de la simulación de transacciones**
+
+Y el uso de hilos
 
 ## Resultados Experimentales
 
-Cuadro y/o gráfico comparativo de desempeño
-de las técnicas de indexación de archivos sobre
-el dominio de datos. Tanto para inserción
-como para búsqueda.
-- Considerar dos métricas: total de accesos a
-disco duro (read & write) y tiempo de
-ejecución en milisegundos.
-- Discusión y Análisis de los resultados
-experimentales.
+##Cuadros para ver el desempeño de las tecnicas de Indexacion
+
+###Isam
+
+|        	| Insertar 	| Busqueda 	|
+|--------	|----------	|----------	|
+| 1,000  	|          	|          	|
+| 100000 	|          	|          	|
+| 100000 	|          	|          	|
+
+    (a) Total de accesos a disco duro(Read + write) Vs. Numeros de tuplas
+
+
+|        	| Insertar 	| Busqueda 	|
+|--------	|----------	|----------	|
+| 1,000  	|          	|          	|
+| 100000 	|          	|          	|
+| 100000 	|          	|          	|
+
+    (a) Tiempo de ejecucion(ml) Vs. Numeros de tuplas
+
+###Hashing Extendible
+
+|        	| Insertar 	| Busqueda 	|
+|--------	|----------	|----------	|
+| 1,000  	|          	|          	|
+| 100000 	|          	|          	|
+| 100000 	|          	|          	|
+
+    (a) Total de accesos a disco duro(Read + write) Vs. Numeros de tuplas
+
+
+|        	| Insertar 	| Busqueda 	|
+|--------	|----------	|----------	|
+| 1,000  	|          	|          	|
+| 100000 	|          	|          	|
+| 100000 	|          	|          	|
+
+    (a) Tiempo de ejecucion(ml) Vs. Numeros de tuplas
+
+
+**Discusión y Análisis**
+Vemos por las graficas que en cantidad de accesos el .
+
+También vemos que el que tiene menor cantidad de accesos a disco es .
+
 
 ## Pruebas de uso y presentación
 
-Presentar las pruebas de uso de la aplicación.
-- Muestre la funcionalidad del aplicativo
-mediante un video (deben participar todos los
-miembros del grupo).
+Estos son los screenshots que obtenemos por el uso de nuestra aplicacion:
+
+
+Este es el link del drive donde esta el video explicado[ Video de funcionalidad](drive.google.com)
