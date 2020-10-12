@@ -10,6 +10,7 @@ using std::endl;
 using std::string;
 using std::setw;
 using std::left;
+using std::right;
 
 #define RESET   "\033[0m"
 #define RED     "\033[31m"
@@ -79,9 +80,9 @@ AnimalRecord::AnimalRecord(string country_area, string year, long long int comm_
 
 
 void AnimalRecord::print_headers() {
-    cout << GREEN << "i\tCOUNTRY\tYEAR\tCOMM_CODE";
-    cout << GREEN << "\tFLOW\tTRADE_USD\tWEIGHT_KG\tQUANTITY_NAME";
-    cout << GREEN << "\tQUANTITY\tCATEGORY\tNEXT\tNEXTDEL" << RESET << endl;
+    cout << GREEN <<"i\tCOUNTRY\t\tYEAR";
+    cout << GREEN << "\tFLOW\tTRADE_USD\tWEIGHT_KG\tQUANTITY_NAME\t";
+    cout << GREEN << "\tQUANTITY\tNEXT\tNEXTDEL" << RESET << endl;
 }
 
 void AnimalRecord::print_info(int count, char page) {
@@ -90,12 +91,12 @@ void AnimalRecord::print_info(int count, char page) {
          << left << setw(4) << year << "\t"
          << left << setw(7) << comm_code << "\t"
          //<< left << setw(50) << commodity << " \t"
-         //<< left << setw(8) << flow << "\t" << endl;    
-         //<< left << setw(10) << trade_usd << "\t"
-         //<< left << setw(10) << weight_kg << "\t"
-         //<< left << setw(15) << quantity_name << "\t" << endl;
-         //<< quantity << "\t"
-         //<< left << setw(20) << category << "\t"
+         //<< left << setw(8) << flow << "\t"   
+         << left << setw(10) << trade_usd << "\t"
+         << left << setw(10) << weight_kg << "\t"
+         << left << setw(16) << quantity_name << "\t"
+         << left << setw(10) << quantity << "\t"
+         //<< left << setw(15) << category << "\t"
          << next << page << "\t"
          << next_del << page << endl;
 }
