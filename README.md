@@ -42,7 +42,7 @@ Y el uso de hilos
 
 ##Cuadros para ver el desempeño de las tecnicas de Indexacion
 
-###Isam
+### Sequential file
 
 |        	| Insertar 	| Busqueda 	|
 |--------	|----------	|----------	|
@@ -61,7 +61,7 @@ Y el uso de hilos
 
     (a) Tiempo de ejecucion(ml) Vs. Numeros de tuplas
 
-###Hashing Extendible
+### Hashing Extendible
 
 |        	| Insertar 	| Busqueda 	|
 |--------	|----------	|----------	|
