@@ -185,7 +185,8 @@ void SequentialFile<T>::print_all() {
         // TODO: avoid deleted records
         record.print_info(count++, record.page);
     }
-    in_file.close();   
+    in_file.close();  
+    cout << endl; 
 }
 
 template <class T>
@@ -304,7 +305,7 @@ void SequentialFile<T>::add_record(T& record) {
                 file.seekg(pos * sizeof(temp) + sizeof(int) * 2);
                 file.read((char*)&temp, sizeof(temp));
 
-                if (strcmp(record.country_area, temp.country_area) < 0) {            
+                if (strcmp(record.country, temp.country) < 0) {            
                     right = mid - 1;  // take the first part of the array file (lower)
                 } else {       
                     left = mid + 1;   // take the second part of the array file (higher)
