@@ -36,6 +36,7 @@ struct SaleRecord {
     int pos;
     char page;
     int next;
+    int prev;
     int next_del;
 
     SaleRecord();
@@ -92,7 +93,7 @@ SaleRecord::SaleRecord(string country, string region, string item_type, string c
 void SaleRecord::print_headers() {
     cout << GREEN;
     cout << left << setw(35) << "i\tCOUNTRY";
-    cout << left << setw(35) << "\tREGION";
+    //cout << left << setw(35) << "\tREGION";
     cout << left << setw(20) <<  "\tITEM_TYPE";
     //cout << left << setw(8) << "\tCHANNEL";
     cout << left << setw(10) << "\tORDER_DATE";
@@ -111,7 +112,7 @@ void SaleRecord::print_headers() {
 void SaleRecord::print_info(int count, char page) {
     cout << count << page << "\t"
          << left << setw(35) << country << "\t"
-         << left << setw(35) << region << "\t"
+         //<< left << setw(35) << region << "\t"
          << left << setw(20) << item_type << "\t"
          //<< left << setw(8) << channel << " \t"
          << left << setw(10) << order_date << "\t"
@@ -123,6 +124,7 @@ void SaleRecord::print_info(int count, char page) {
          << left << setw(11) << total_revenue << "\t"
          << left << setw(11) << total_cost << "\t"
          << left << setw(11) << total_profit << "\t"
+         << prev << page << "\t"
          << next << page << "\t"
          << next_del << page << endl;
 }
