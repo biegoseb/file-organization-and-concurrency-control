@@ -342,18 +342,18 @@ void SequentialFile<T>::add_record(T& record) {
                 temp.next = record.pos;     // make prev record point to new record
                 record.prev = temp.pos;    // make new record point to temp
 
-                T rec_next;
-                file.seekg(record.next * sizeof(T) + sizeof(int) * 2);
-                file.read((char*)&rec_next, sizeof(T));
-                rec_next.prev = record.pos;
-                temp.prev = record.pos;     // make prev record point to prev of record
-                file.seekg(record.next * sizeof(T) + sizeof(int) * 2);
-                file.write((char*)&rec_next, sizeof(T));
-
                 /* Relocate cursor at prev record and write */
                 file.seekg(temp.pos * sizeof(T) + sizeof(int) * 2);
                 file.write((char*)&temp, sizeof(T));
-            }   
+                
+                if (record.next != -1) {
+                    file.seekg(record.next * sizeof(T) + sizeof(int) * 2);
+                    file.read((char*)&temp, sizeof(T));
+                    temp.prev = record.pos;
+                    file.seekg(record.next * sizeof(T) + sizeof(int) * 2);
+                    file.write((char*)&temp, sizeof(T));
+                }
+            }
 
             /* Write new record at the end of file */
             file.seekg(0, ios::end);
@@ -367,8 +367,7 @@ void SequentialFile<T>::add_record(T& record) {
 template <class T>
 void SequentialFile<T>::delete_record(int pos) {
     fstream file;
-    T rec;
-    T prev;
+    T rec, prev_rec, next_rec;
     file.open(file_name, ios::in | ios::out | ios::binary);
     if (file.is_open()) {
         /* read FreeList header and First */
@@ -381,16 +380,25 @@ void SequentialFile<T>::delete_record(int pos) {
         file.seekg(pos * sizeof(T) + sizeof(int) * 2);
         file.read((char*)&rec, sizeof(T));
 
-        /* locate the cursor at prev sorted record */
-        file.seekg(rec.next * sizeof(T) + sizeof(int) * 2);
-        file.read((char*)&prev, sizeof(T));
 
-        /* uptade prev.next to  */
+        // TODO: first and last
+        /* update prev and next sorted record */
+        file.seekg(rec.prev * sizeof(T) + sizeof(int) * 2);
+        file.read((char*)&prev_rec, sizeof(T));
+        prev_rec.next = rec.next;
+        file.seekg(rec.next * sizeof(T) + sizeof(int) * 2);
+        file.read((char*)&next_rec, sizeof(T));
+        next_rec.prev = rec.prev; 
+
 
         /* update its nextdel */
         rec.next_del = rootPtr;
 
-        /* write the record */
+        /* write and update the records */  
+        file.seekg(rec.prev * sizeof(T) + sizeof(int) * 2);
+        file.write((char*)&prev_rec, sizeof(T));
+        file.seekg(rec.next * sizeof(T) + sizeof(int) * 2);
+        file.write((char*)&next_rec, sizeof(T));
         file.seekg(pos * sizeof(T) + sizeof(int) * 2);
         file.write((char*)&rec, sizeof(T));
 
