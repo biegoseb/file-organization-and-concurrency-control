@@ -21,22 +21,24 @@ Se esperará poder visualizar los tiempos de ejecucion de las funciones de Inser
 ## Fundamente y describa las tecnicas
 
 
-**Descripcion de las técnicas de indexación de archivos**
-
+##### Sequential File
 
 El metodo de organizacion de archivos en Isam consiste en inserción, eliminación y búsqueda
 El metodo de insercion es
 El metodo de eliminacion es
 El metodo de busqueda es
 
-El metodo de organizacion de archivos en Extendible hashing consiste en inserción, eliminación y búsqueda
-El metodo de insercion es
-El metodo de eliminacion es
-El metodo de busqueda es
+##### Extendible Hashing
 
-**Descripcion de la simulación de transacciones**
+Usado en base de datos que varían tamaño a través del tiempo. La función hash genera una secuencia de bits, del cual solo se usa un sufijo o prefijo del binario para indexar los registros. Cada bucket tiene una profundidad local que indica cuantos bits se estáan tomando. Esta técnica evita que la base de datos se degrade con el tiempo y minimiza los casos de overflow. Por otro lado, el cambio de tamaño de buckets es una operación cara y no soporta búsquedas por rango.
 
-Y el uso de hilos
+### Manejo de memoria secundaria
+
+El manejo de la memoria secundaria se puede ver en los buckets en forma de archivo que se guardan en el disco duro al momento de correr el programa. Para la creacion de un objeto que va a realizar cada una de las tecnicas de organizacion es necesario que leamos el archivo que se encuentra en memoria secundaria. . La creación de buckets y su guardado tambien se realiza en memoria secundaria, por lo cual hay carpetas designadas para cada uno de estos. Como prueba del software funcionando apropiadamente, vemos la generacion de nuevos archivos en cada uno de las carpetas designadas.
+
+###Simulacion de Transacciones
+
+Las transacciones fueron simuladas en forma de funciones que realizaban un cierto número de operaciones de inserción y eliminacion utilizando un mismo tipo de técnica de organización y utilizando concurrencia se utilizaron hilos que realizaban estas funciones en simultáneo. Su funcionamiento correcto se comprobo invocándolas sobre un conjunto de archivos ya existentes para ver que se ejecutaran apropiadamente. Se manejo las transacciones con un formato de texto para observar el orden en el que ocurrieron cada una de las operaciones. Se esperaba obtener una planificación serializable al momento de llevar a cabo las transacciones.
 
 ## Resultados Experimentales
 
