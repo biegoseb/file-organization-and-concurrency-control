@@ -175,7 +175,7 @@ void SequentialFile<T>::print_all() {
     in_file.open(file_name, ios::in | ios::binary);
     in_file.read((char*)&first_temp, sizeof(int));
     in_file.read((char*)&root_temp, sizeof(int));
-
+    
     cout << RED << "\t\tBINARY FILE: " << RESET << file_name << endl;
     cout << RED << "First: " << this->first << "d" << RESET << endl;
     cout << RED << "FL Root: " << this->fl_root << "d" << RESET << endl;
@@ -324,20 +324,36 @@ void SequentialFile<T>::add_record(T& record) {
 
             /* Update next pointers */
             if (first == temp.pos && right != 0) {
+                T ex_first;
                 record.next = temp.pos; // make new record point to first
+                record.prev = -1;
+
+                /* Update prev of ex-first */
+                temp.prev = record.pos;
+                file.seekg(temp.pos * sizeof(T) + sizeof(int) * 2);
+                file.write((char*)&temp, sizeof(T));
 
                 /* Update and ow first index if prev is the first sorted record */
                 first = num_records();
                 file.seekg(0, ios::beg);     
                 file.write((char*)&first, sizeof(int));
             } else {
-                record.next = temp.next;  // make new record point to next of temp
-                temp.next = num_records(); // make prev record point to new record
+                record.next = temp.next;    // make new record point to next of temp
+                temp.next = record.pos;     // make prev record point to new record
+                record.prev = temp.pos;    // make new record point to temp
 
-                /* Relocate cursor at beg of prev record and write */
-                file.seekg(prev * sizeof(T) + sizeof(int) * 2);
+                /* Relocate cursor at prev record and write */
+                file.seekg(temp.pos * sizeof(T) + sizeof(int) * 2);
                 file.write((char*)&temp, sizeof(T));
-            }   
+                
+                if (record.next != -1) {
+                    file.seekg(record.next * sizeof(T) + sizeof(int) * 2);
+                    file.read((char*)&temp, sizeof(T));
+                    temp.prev = record.pos;
+                    file.seekg(record.next * sizeof(T) + sizeof(int) * 2);
+                    file.write((char*)&temp, sizeof(T));
+                }
+            }
 
             /* Write new record at the end of file */
             file.seekg(0, ios::end);
@@ -351,7 +367,7 @@ void SequentialFile<T>::add_record(T& record) {
 template <class T>
 void SequentialFile<T>::delete_record(int pos) {
     fstream file;
-    T rec;
+    T rec, prev_rec, next_rec;
     file.open(file_name, ios::in | ios::out | ios::binary);
     if (file.is_open()) {
         /* read FreeList header and First */
@@ -364,10 +380,25 @@ void SequentialFile<T>::delete_record(int pos) {
         file.seekg(pos * sizeof(T) + sizeof(int) * 2);
         file.read((char*)&rec, sizeof(T));
 
+
+        // TODO: first and last
+        /* update prev and next sorted record */
+        file.seekg(rec.prev * sizeof(T) + sizeof(int) * 2);
+        file.read((char*)&prev_rec, sizeof(T));
+        prev_rec.next = rec.next;
+        file.seekg(rec.next * sizeof(T) + sizeof(int) * 2);
+        file.read((char*)&next_rec, sizeof(T));
+        next_rec.prev = rec.prev; 
+
+
         /* update its nextdel */
         rec.next_del = rootPtr;
 
-        /* write the record */
+        /* write and update the records */  
+        file.seekg(rec.prev * sizeof(T) + sizeof(int) * 2);
+        file.write((char*)&prev_rec, sizeof(T));
+        file.seekg(rec.next * sizeof(T) + sizeof(int) * 2);
+        file.write((char*)&next_rec, sizeof(T));
         file.seekg(pos * sizeof(T) + sizeof(int) * 2);
         file.write((char*)&rec, sizeof(T));
 

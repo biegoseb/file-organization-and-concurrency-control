@@ -91,4 +91,4 @@ También vemos que el que tiene menor cantidad de accesos a disco es .
 Estos son los screenshots que obtenemos por el uso de nuestra aplicacion:
 
 
-Este es el link del drive donde esta el video explicado[ Video de funcionalidad](drive.google.com)
+Este es el link del drive donde esta el video explicado[ Video de funcionalidad](https://drive.google.com/drive/folders/1Tv2J0yGe3MQXUWbJ9FUJFJX8Da2_v6o-?usp=sharing)

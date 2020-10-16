@@ -27,7 +27,7 @@ struct AnimalRecord {
     long long int weight_kg;
     char quantity_name[15];
     long long int quantity;
-    char category[20];
+    char category[50];
 
     int pos;
     char page;
@@ -47,7 +47,7 @@ AnimalRecord::AnimalRecord() { }
 AnimalRecord::AnimalRecord(char country_area[30], char year[4], long long int comm_code, 
     char commodity[50], char flow[6], long long int trade_usd, 
     long long int weight_kg, char quantity_name[15], 
-    long long int quantity, char category[20]) {
+    long long int quantity, char category[50]) {
         strcpy(this->country_area, country_area);
         strcpy(this->year, year);
         this->comm_code = comm_code;
