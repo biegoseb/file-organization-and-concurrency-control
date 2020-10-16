@@ -6,6 +6,7 @@
 |---|
 |Diego Enciso Lozano |
 |Luis Jauregui Vera	 |
+|Jonathan Hoyos      |
 
 
 ## Tabla de contenido
