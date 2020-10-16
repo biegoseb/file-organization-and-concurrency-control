@@ -177,8 +177,8 @@ void SequentialFile<T>::print_all() {
     in_file.read((char*)&root_temp, sizeof(int));
     
     cout << RED << "\t\tBINARY FILE: " << RESET << file_name << endl;
-    cout << RED << "First: " << this->first << "d" << RESET << endl;
-    cout << RED << "FL Root: " << this->fl_root << "d" << RESET << endl;
+    cout << RED << "First: " << first_temp << "d" << RESET << endl;
+    cout << RED << "FL Root: " << root_temp << "d" << RESET << endl;
     record.print_headers();
     int count = 0;
     while (in_file.read((char*)&record, sizeof(record))) {
@@ -381,24 +381,43 @@ void SequentialFile<T>::delete_record(int pos) {
         file.read((char*)&rec, sizeof(T));
 
 
-        // TODO: first and last
-        /* update prev and next sorted record */
-        file.seekg(rec.prev * sizeof(T) + sizeof(int) * 2);
-        file.read((char*)&prev_rec, sizeof(T));
-        prev_rec.next = rec.next;
-        file.seekg(rec.next * sizeof(T) + sizeof(int) * 2);
-        file.read((char*)&next_rec, sizeof(T));
-        next_rec.prev = rec.prev; 
+        /* first, last, other */
+        if (rec.prev == -1) {
+            file.seekg(rec.next * sizeof(T) + sizeof(int) * 2);
+            file.read((char*)&next_rec, sizeof(T));
+            next_rec.prev = -1;
+            file.seekg(rec.next * sizeof(T) + sizeof(int) * 2);
+            file.write((char*)&next_rec, sizeof(T));
 
+            firstPtr = rec.next;
+            first = firstPtr;
+            file.seekg(0, ios::beg);
+            file.write((char*)&firstPtr, sizeof(int));
+        } else if (rec.next == -1) {
+            file.seekg(rec.prev * sizeof(T) + sizeof(int) * 2);
+            file.read((char*)&prev_rec, sizeof(T));
+            prev_rec.next = -1;
+            file.seekg(rec.prev * sizeof(T) + sizeof(int) * 2);
+            file.write((char*)&prev_rec, sizeof(T));
+        } else {
+            /* update prev and next sorted record */
+            file.seekg(rec.prev * sizeof(T) + sizeof(int) * 2);
+            file.read((char*)&prev_rec, sizeof(T));
+            prev_rec.next = rec.next;
+            file.seekg(rec.prev * sizeof(T) + sizeof(int) * 2);
+            file.write((char*)&prev_rec, sizeof(T));
+
+            file.seekg(rec.next * sizeof(T) + sizeof(int) * 2);
+            file.read((char*)&next_rec, sizeof(T));
+            next_rec.prev = rec.prev;
+            file.seekg(rec.next * sizeof(T) + sizeof(int) * 2);
+            file.write((char*)&next_rec, sizeof(T));
+        }
 
         /* update its nextdel */
         rec.next_del = rootPtr;
 
-        /* write and update the records */  
-        file.seekg(rec.prev * sizeof(T) + sizeof(int) * 2);
-        file.write((char*)&prev_rec, sizeof(T));
-        file.seekg(rec.next * sizeof(T) + sizeof(int) * 2);
-        file.write((char*)&next_rec, sizeof(T));
+        /* update the record */   
         file.seekg(pos * sizeof(T) + sizeof(int) * 2);
         file.write((char*)&rec, sizeof(T));
 
