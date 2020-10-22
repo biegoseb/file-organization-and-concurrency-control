@@ -36,18 +36,18 @@ Este informe cuenta con las comparaciones de los tiempos de ejecución de los pr
 
 ### Sequential File
 
-Esta técnica hace uso de dos archivos, uno para almacenar los datos, los cuales están 
-ordenados de manera lógica por punteros en memoria secundaria y el otro para los 
-nuevos registros a insertar, éste último funciona como un archivo temporal y también se encuentra ordenado por punteros en memoria secundaria. Los datos no necesariamente 
-deben ser escritos en los archivos de manera ordenada, ya que con los punteros y el 
+Esta técnica hace uso de dos archivos, uno para almacenar los datos, los cuales están
+ordenados de manera lógica por punteros en memoria secundaria y el otro para los
+nuevos registros a insertar, éste último funciona como un archivo temporal y también se encuentra ordenado por punteros en memoria secundaria. Los datos no necesariamente
+deben ser escritos en los archivos de manera ordenada, ya que con los punteros y el
 orden lógico se pueden realizar búsquedas binarias con una complejidad logarítmica.
 
 ##### Inserción
->Para esta operación, se localiza la posición lógica en la cual será insertado el registro y para ello, se hace uso de la búsqueda binaria. Además, se hace uso de 2 campos adicionales por registro, los cuales almacenarán las posiciones del siguiente y anterior registro. Esta operación puede llegar a realizar logn lecturas en memoria secundaria (n: cantidad de registros) para localizar la posición y para escribir en disco realiza 1 acceso. 
+>Para esta operación, se localiza la posición lógica en la cual será insertado el registro y para ello, se hace uso de la búsqueda binaria. Además, se hace uso de 2 campos adicionales por registro, los cuales almacenarán las posiciones del siguiente y anterior registro. Esta operación puede llegar a realizar logn lecturas en memoria secundaria (n: cantidad de registros) para localizar la posición y para escribir en disco realiza 1 acceso.
 Complejidad: O(logn) + O(1)
 
 ##### Búsqueda
->Para esta operación, se implementó un recorrido binario a través del archivo, el cual retornará la posición en la que debe ser insertado un registro o también puede retornar un registro dado una llave de búsqueda. Este recorrido puede llegar a realizar logn accesos a memoria secundaria, siendo n: cantidad de registros. 
+>Para esta operación, se implementó un recorrido binario a través del archivo, el cual retornará la posición en la que debe ser insertado un registro o también puede retornar un registro dado una llave de búsqueda. Este recorrido puede llegar a realizar logn accesos a memoria secundaria, siendo n: cantidad de registros.
 Complejidad: O(logn)
 
 ##### Eliminación
@@ -59,13 +59,14 @@ Complejidad: O(1)
 Usado en base de datos que varían tamaño a través del tiempo. La función hash genera una secuencia de bits, del cual solo se usa un sufijo o prefijo del binario para indexar los registros. Cada bucket tiene una profundidad local que indica cuantos bits se estáan tomando. Esta técnica evita que la base de datos se degrade con el tiempo y minimiza los casos de overflow. Por otro lado, el cambio de tamaño de buckets es una operación cara y no soporta búsquedas por rango.
 
 ##### Inserción
->
+>Para esta operación, primero se busca si hay algun registro vacio en eliminados.dat. Esto es para ver si se puede insertar en los espacios que hemos eliminado. Luego, se localiza la posición  en la cual será insertado el Bucket y para ello . Complejidad O(1) Porque solo requiere buscar el registro que ya tiene llave y es facil de localizar por la estructura Hash.
+
 
 ##### Búsqueda
->
+> Para esta operacion, se hace que busque por llave la funcion Busqueda. Luego, al encontarla transformamos y encontramos. O(1) + t . Donde t son elementos dentro del Bucket
 
 ##### Eliminación
->
+> En esta operacion, lo que hacemos es buscar con la llave en el Bucket, y después sacamos del hash el registro, y llevamos al archivo de eliminados. En este archivo,tenemos 2 registros, con una atributo bandera(VALID) en 1, que indica que podemos usar esta direccion de memoria para sobreescribir. Complejidad O(1)
 
 
 ### Simulacion de Transacciones
@@ -115,26 +116,38 @@ Cuadros para ver el desempeño de las técnicas de indexación:
     | Test   | Input  	 |  Tiempo (ms) |
     |------  |--------   |--------------|
     |  1     | 100       | 0.00001 	    |
-    |  2     | 500 	     | 0.00018 		|
+    |  2     | 500 	 | 0.00018 		|
     |  3     | 1000 	 | 0.00075 		|
     |  4     | 5000 	 | 0.02192 		|
     |  5     | 10000 	 | 0.08931 		|
 
-### Extendible Hashing 
+### Extendible Hashing
 
  ##### Total de accesos a disco duro (read & write)
  - Inserción
+    **Al inicio:**  O n(r) + 1(t)
+    **Al final :**  O n(r) + 1(t) + 2(r&w punteros del anterior registro)
 
- - Búsqueda
+    | Mejor Caso |  Caso Promedio  |
+    |------------|-----------------|
+    |    O(1) 	 | O(1) + O(t) |
 
-- Eliminación
+
 
  ##### Tiempos de ejecución
 
 - Tiempos de cada test
 
+    | Test   | Input    | Tiempo (ms)    |
+    | ------ | -------- | -------------- |
+    | 1      | 100      | 0.00008        |
+    | 2      | 500      | 0.000032       |
+    | 3      | 1000     | 0.000650       |
+    | 4      | 5000     | 0.004572       |
+    | 5      | 10000    | 0.097352       |
+
 **Discusión y Análisis**
-En Sequential File se puede observar que el caso promedio para la inserción y búsqueda es O(log n), siendo n la cantidad de registros a iterar, mientras que para la eliminación el caso promedio es constante O(1).
+En Sequential File se puede observar que el caso promedio para la inserción y búsqueda es O(log n), siendo n la cantidad de registros a iterar, mientras que para la eliminación el caso promedio es constante O(1). Y para el Hashing Dinamico, insertar nos tomara O(1) + t, siendo t el tamaño del Bucket.
 
 
 ## Pruebas de uso y presentación
